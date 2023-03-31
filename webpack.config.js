@@ -11,7 +11,7 @@ const path = require('path');
 module.exports = {
   // mode: process.env.NODE_ENV,
   mode: 'development',
-  entry: './index.js',
+  entry: './client/src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -47,11 +47,19 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'less-loader' },
+        ],
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'client', 'index.html'),
+      template: path.join(__dirname, 'client', './public/index.html'),
     }),
   ],
 };

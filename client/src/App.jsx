@@ -1,9 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BathroomContextProvider } from './context/BathroomsContext';
 import Home from './routes/Home';
 
 const App = () => {
-  return <div>
+
+  return (
+    <BathroomContextProvider>
+  <div className='container'>
     <Router>
       <Routes>
         <Route exact path ='/' Component={Home} />
@@ -12,6 +16,9 @@ const App = () => {
       </Routes>
     </Router>
   </div>
+    </BathroomContextProvider>
+
+  )
 }
 
 export default App;
