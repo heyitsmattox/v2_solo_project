@@ -9,7 +9,6 @@ const Home = () => {
       <Header />
       <AddBathroom />
       <BathroomCard />
-
     </div>
   )
 }

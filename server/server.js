@@ -3,7 +3,10 @@
 /* eslint-disable no-unused-vars */
 require('dotenv').config();
 const express = require('express');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const cors = require('cors');
 const morgan = require('morgan');
+
 const db = require('./db');
 
 const app = express();
@@ -19,6 +22,7 @@ app.use(morgan('dev'));
 // Takes info from body of the request
 // Going to attach to our request object under BODY
 // i.e req.body is now valid
+app.use(cors());
 app.use(express.json());
 
 // send our index.html file once we create it here
@@ -32,8 +36,8 @@ app.use(express.json());
 app.get('/bathrooms', async (req, res, next) => {
   try {
     const results = await db.query('select * from bathrooms');
-    console.log('HERE ARE THE RESULTS ---->', results);
-    res.status(200).json({
+    // console.log('HERE ARE THE RESULTS ---->', results);
+    return res.status(200).json({
       status: 'success',
       results: results.rows.length,
       data: {
@@ -54,13 +58,13 @@ app.get('/bathrooms/:id', async (req, res, next) => {
   // console.log(req.params.id);
   try {
     const results = await db.query('select * from bathrooms where id = $1', [req.params.id]);
-    res.status(200).json({
+    return res.status(200).json({
       status: 'Selecting a bathroom succeeded',
       data: {
         bathroom: results.rows[0],
       },
     });
-    console.log(results.rows[0]);
+    // console.log(results.rows[0]);
   } catch (error) {
     return next({
       log: 'ERR within getting an individual bathroom ---> /v1/bathrooms/:id',
@@ -71,14 +75,14 @@ app.get('/bathrooms/:id', async (req, res, next) => {
 
 // Create a bathroom
 app.post('/bathrooms', async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const results = await db.query(
       // the query returning * returns the newest result into the db
       'INSERT INTO bathrooms (bathroom_of, city, description) values ($1, $2, $3) returning *',
       [req.body.bathroom_of, req.body.city, req.body.description],
     );
-    console.log(results);
+    // console.log(results);
     res.status(201).json({
       status: 'creating a bathroom succeeded',
       data: {
@@ -96,13 +100,13 @@ app.post('/bathrooms', async (req, res, next) => {
 // Update bathroom
 
 app.put('/bathrooms/:id', async (req, res, next) => {
-  console.log(`this is my req.body ${req.body}`);
+  // console.log(`this is my req.body ${req.body}`);
   try {
     const results = await db.query('UPDATE bathrooms SET bathroom_of = $1, city = $2, description = $3 where id = $4 returning *', [req.body.bathroom_of, req.body.city, req.body.description, req.params.id]);
     // console.log(`this is my req ID ${req.params.id}`);
     // console.log(req.body);
-    console.log(`this is my req.body ${req.body}`);
-    console.log(results);
+    // console.log(`this is my req.body ${req.body}`);
+    // console.log(results);
     res.status(200).json({
       status: 'update was successful',
       data: {

@@ -1,14 +1,16 @@
 import React, { useState, createContext } from 'react';
 
-export const BathroomContext = createContext();
+export const BathroomsContext = createContext();
 
-export const BathroomContextProvider = props => {
+export const BathroomContextProvider = (props) => {
   const [bathrooms, setBathrooms] = useState([])
 
-
+  const addBathrooms = (bathroom) => {
+    setBathrooms([...bathrooms, bathroom]);
+  }
   return (
-    <BathroomContext.Provider value={{bathrooms: bathrooms, setBathrooms}}>
+    <BathroomsContext.Provider value={{bathrooms, setBathrooms, addBathrooms}}>
       {props.children}
-    </BathroomContext.Provider>
+    </BathroomsContext.Provider>
   )
 }

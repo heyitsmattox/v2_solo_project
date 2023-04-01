@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@mui/material": "^5.11.15",
+    "cors": "^2.8.5",
     "create-react-app": "^5.0.1",
     "pg": "^8.10.0",
     "react": "^18.2.0",
